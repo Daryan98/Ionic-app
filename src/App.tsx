@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* Core CSS required for Ionic components to work properly */
+import '@ionic/core/css/core.css';
+import '@ionic/core/css/ionic.bundle.css'
+import { BrowserRouter, Switch ,Route } from 'react-router-dom';
+import { IonApp, IonPage } from '@ionic/react';
+import Todo from './components/Todo';
+// import Todo from './components/Todo_app';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+
+const App: React.FunctionComponent = () => (
+  <IonApp>
+      <IonPage>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/" component={Todo} exact={true} />
+              {/* <Route exact path="/todo" component={Todo} /> */}
+            </Switch>
+          </BrowserRouter>
+      </IonPage>
+  </IonApp>
+);
 
 export default App;

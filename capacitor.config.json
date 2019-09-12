@@ -1,0 +1,7 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "TODO APP",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build"
+}

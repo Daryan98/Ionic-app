@@ -1,0 +1,7 @@
+{
+  "name": "TODO APP",
+  "type": "custom",
+  "integrations": {
+    "capacitor": {}
+  }
+}
