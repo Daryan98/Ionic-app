@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import {TodosState, TodosTypes} from './types';
 
 const INITIAL_STATE: TodosState = {
-  data: [{id: 1, name:"do"}],
+  data: [],
   error: false,
   loading: true,
 };

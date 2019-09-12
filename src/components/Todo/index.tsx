@@ -34,14 +34,14 @@ class TodoApp extends React.Component<Props> {
 
 	componentDidMount() {
 		const { loadTodos } = this.props;
+		loadTodos();
 	}
 
 	onChangeInput(e: any){
 		this.setState({inputValue: e.target.value});
 	}
 	render() {
-		const { todos } = this.props;
-		console.log(todos);
+		console.log(this.props);
 		return (<>
 			<IonHeader>
 				<Header className="header">
