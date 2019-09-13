@@ -1,23 +1,38 @@
 import { call, put } from 'redux-saga/effects';
 import api from '../../../services/api'
+import { Todo } from './types';
 
-import { loadTodosSuccess, loadTodosFailed } from '../todos/actions';
+import { loadTodosSuccess, loadTodosFailed, addTodoSuccess, addTodoFailed } from '../todos/actions';
+
+
+export function* addTodo(data: any) {
+  try{
+    yield put(addTodoSuccess(data.payload.data));
+  }catch(err){
+    yield put(addTodoFailed(err));
+
+  }
+}
+
 
 export function* loadTodos() {
   try{
     const response = {
       data: [{
         id: 1,
-        name: "to"
+        status: 'do',
+        text: "to"
       },
       {
         id: 2,
-        name: "do"
+        status: 'do',
+        text: "do"
       }]
     }
     yield put(loadTodosSuccess(response.data))
   }catch(err){
-    yield put(loadTodosFailed())
+    yield put(loadTodosFailed(err))
 
   }
 }
+

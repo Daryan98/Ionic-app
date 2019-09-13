@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-
+import { Dispatch } from 'redux';
 import TrashIcon from 'react-ionicons/lib/MdTrash';
 import CheckMarkIcon from 'react-ionicons/lib/MdCheckmark';
 import AddIcon from 'react-ionicons/lib/MdAdd';
@@ -24,30 +23,43 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	loadTodos(): void
+	loadTodoAction(): void
+	addTodoAction(name: String): void
+
 }
 
 type Props = StateProps & DispatchProps;
 
-class TodoApp extends React.Component<Props> {
+interface State {
+	inputValue?: String;
+}
+
+class TodoApp extends React.Component<Props, State> {
 	state = { inputValue: '' }
 
 	componentDidMount() {
-		const { loadTodos } = this.props;
-		loadTodos();
+		const { loadTodoAction } = this.props;
+		loadTodoAction();
+	}
+
+	addTodoHandle(){
+		const { inputValue } = this.state;
+		const { addTodoAction } = this.props;
+		addTodoAction(inputValue);
 	}
 
 	onChangeInput(e: any){
 		this.setState({inputValue: e.target.value});
 	}
 	render() {
-		console.log(this.props);
+		const { todos } = this.props;
+		const doneItems = todos.filter(item => item.status == 'done');
 		return (<>
 			<IonHeader>
 				<Header className="header">
 					<IonInput class="input" placeholder="Enter an activity..." onIonChange={(e: Event) => this.onChangeInput(e)} ></IonInput>
 					<IonFab vertical="center"  horizontal="end" slot="fixed" >
-						<IonFabButton class="fab_button">
+						<IonFabButton class="fab_button" onClick={() => this.addTodoHandle()}>
 							<AddIcon className="plus_icon"/>
 						</IonFabButton>
 				</IonFab>
@@ -57,38 +69,60 @@ class TodoApp extends React.Component<Props> {
 			<IonContent>
 				<Todos>
 					<div className="todoos do">
-						<p>You have nothing to-do!</p>
+						{
+							todos.length <= 0 && <p>You have nothing to-do!</p>
+						}
+						
 
 						<ul className="todo_list do">
-							<li>
-								Do Some
-								<div className="icons">
-									<div className="trash icon">
-										<TrashIcon className="trash"/>
-									</div>
-									<div className="checkmark icon">
-										<CheckMarkIcon className="checkmark"/>
-									</div>
-								</div>
-							</li>
+							{
+								todos.map(item => {
+									if(item.status == 'do'){
+										return(
+											<li>
+											{item.text}
+											<div className="icons">
+												<div className="trash icon">
+													<TrashIcon className="trash"/>
+												</div>
+												<div className="checkmark icon">
+													<CheckMarkIcon className="checkmark"/>
+												</div>
+											</div>
+										</li>
+										)
+									}
+								})
+							}
 						</ul>
 					</div>
 					<Divider />
 					<div className="todoos done">
-					<p>You have yet to compelete any tasks.</p>
+					{
+						!doneItems.length &&
+						<p>You have yet to compelete any tasks.</p>
+					}
 
 					<ul className="todo_list done">
-						<li>
-								Do Some
-								<div className="icons">
-									<div className="trash icon">
-										<TrashIcon className="trash"/>										
-									</div>
-									<div className="checkmark icon">
-										<CheckMarkIcon className="checkmark"/>
-									</div>
-								</div>
-							</li>
+						{
+							todos.map(item => {
+								if(item.status == 'done'){
+									return(
+										<li>
+										{item.text}
+										<div className="icons">
+											<div className="trash icon">
+												<TrashIcon className="trash"/>										
+											</div>
+											<div className="checkmark icon">
+												<CheckMarkIcon className="checkmark"/>
+											</div>
+										</div>
+									</li>
+									)
+								}
+							})
+						}
 						</ul>
 					</div>
 				</Todos>
@@ -101,7 +135,11 @@ const mapStateToProps = (state: ApplicationState) => ({
 	todos: state.todos.data,
 })
 
-const mapDispatchToProps = ( dispatch: Dispatch ) =>
-	bindActionCreators(TodosActions, dispatch)
+const mapDispatchToProps = ( dispatch: Dispatch ) => {
+	return {
+		addTodoAction: (name: String) => dispatch(TodosActions.addTodo([{id: Math.random(), status: 'do', text:name}])),
+    loadTodoAction: () => dispatch(TodosActions.loadTodos()), 
+	}
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);
