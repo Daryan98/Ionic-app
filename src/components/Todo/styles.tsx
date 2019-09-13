@@ -15,7 +15,7 @@ padding: 15px;
 top: 0;
 left: 0;
 z-index: 5;
-background: #25b99a;
+background: #001399;
 box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);
 .input{
   width: 100%;
@@ -34,15 +34,15 @@ box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);
 }
 .fab_button {
 	--background: #FFF;
-	--background-hover:#25b99a;
-	--background-activated: rgba(37,185,154, 0.7);
+	--background-hover:#1A1936;
+	--background-activated: rgba(0,19,153, 0.7);
 	&:hover .plus_icon {
 		fill: #FFF;
 		transition: all .2s;
 	}
 }
 .plus_icon {
-  fill: #25b99a;
+  fill: #1A1939;
 }
 `
 

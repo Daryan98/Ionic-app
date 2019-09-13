@@ -45,7 +45,9 @@ class TodoApp extends React.Component<Props, State> {
 	addTodoHandle(){
 		const { inputValue } = this.state;
 		const { addTodoAction } = this.props;
-		addTodoAction(inputValue);
+		if(inputValue !== '') {
+			addTodoAction(inputValue);
+		}
 	}
 
 	onChangeInput(e: any){
