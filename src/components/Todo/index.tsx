@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import uuid from 'uuidv4';
 import TrashIcon from 'react-ionicons/lib/MdTrash';
 import CheckMarkIcon from 'react-ionicons/lib/MdCheckmark';
 import AddIcon from 'react-ionicons/lib/MdAdd';
@@ -25,6 +26,8 @@ interface StateProps {
 interface DispatchProps {
 	loadTodoAction(): void
 	addTodoAction(name: String): void
+	updateTodoAction(updatedTodo: Object): void
+	deleteTodoAction(updatedTodo: Object): void
 
 }
 
@@ -54,7 +57,7 @@ class TodoApp extends React.Component<Props, State> {
 		this.setState({inputValue: e.target.value});
 	}
 	render() {
-		const { todos } = this.props;
+		const { todos, updateTodoAction, deleteTodoAction } = this.props;
 		const doneItems = todos.filter(item => item.status == 'done');
 		return (<>
 			<IonHeader>
@@ -85,10 +88,12 @@ class TodoApp extends React.Component<Props, State> {
 											{item.text}
 											<div className="icons">
 												<div className="trash icon">
-													<TrashIcon className="trash"/>
+													<TrashIcon className="trash" onClick={() => {
+														deleteTodoAction({todos: this.props.todos , deleteTodo: item})}}/>
 												</div>
 												<div className="checkmark icon">
-													<CheckMarkIcon className="checkmark"/>
+													<CheckMarkIcon className="checkmark" onClick={() => {
+														updateTodoAction({todos: this.props.todos , updatedTodos: {...item, status:'done'}})}}/>
 												</div>
 											</div>
 										</li>
@@ -114,10 +119,12 @@ class TodoApp extends React.Component<Props, State> {
 										{item.text}
 										<div className="icons">
 											<div className="trash icon">
-												<TrashIcon className="trash"/>										
+												<TrashIcon className="trash" onClick={() => {
+														deleteTodoAction({todos: this.props.todos , deleteTodo: item})}}/>										
 											</div>
 											<div className="checkmark icon">
-												<CheckMarkIcon className="checkmark"/>
+												<CheckMarkIcon className="checkmark" onClick={() => {
+														updateTodoAction({todos: this.props.todos , updatedTodos: {...item, status:'do'}})}}/>
 											</div>
 										</div>
 									</li>
@@ -139,8 +146,12 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = ( dispatch: Dispatch ) => {
 	return {
-		addTodoAction: (name: String) => dispatch(TodosActions.addTodo([{id: Math.random(), status: 'do', text:name}])),
-    loadTodoAction: () => dispatch(TodosActions.loadTodos()), 
+		addTodoAction: (name: String) => dispatch(TodosActions.addTodo([{id: uuid(), status: 'do', text:name}])),
+		loadTodoAction: () => dispatch(TodosActions.loadTodos()), 
+		updateTodoAction: (data) => dispatch(TodosActions.updateTodo(data)), 
+    deleteTodoAction: (data) => dispatch(TodosActions.deleteTodo(data)), 
+		
+		
 	}
 }
 

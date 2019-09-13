@@ -34,15 +34,20 @@ box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);
 }
 .fab_button {
 	--background: #FFF;
-	--background-hover:#1A1936;
+	--background-hover:#001399;
 	--background-activated: rgba(0,19,153, 0.7);
-	&:hover .plus_icon {
-		fill: #FFF;
-		transition: all .2s;
-	}
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, .7);
+	border-radius: 50%;
+	&:hover
+	{
+		.plus_icon {
+			fill: #FFF;
+			transition: all .2s;
+		}
+	} 
 }
 .plus_icon {
-  fill: #1A1939;
+  fill: #001399;
 }
 `
 
@@ -104,6 +109,10 @@ export const Todos = styled.div`
 					border: 1.4px solid rgba(214,26,60, 0.6);
 					fill: #D61A3C;
 					border-radius: 4px;
+					&:hover{
+						background: #D61A3C;
+						fill: #FFF;
+					}
 				}
 				.checkmark {
 					width: 30px;
@@ -113,7 +122,10 @@ export const Todos = styled.div`
 					fill: #25b99a;
 					border-radius: 4px;
 					font-size: 17px;
-
+					&:hover{
+						background: #25b99a;
+						fill: #FFF;
+					}
 				}
 			}
 		}
